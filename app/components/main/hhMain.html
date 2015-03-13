@@ -1,0 +1,12 @@
+<div class="main">
+    <div ui-view="header"></div>
+    <div ui-view="menu"></div>
+    <div id="content" class="container-fluid">
+        <div id="body" class="col-sm-12 col-md-12 col-lg-12">
+            <div ui-view="notifications"></div>
+            <div ui-view></div>
+        </div>
+    </div>
+    <span>Home Helper</span>
+    <div>Angular seed app: v<span app-version></span></div>
+</div>
