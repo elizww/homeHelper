@@ -1,5 +1,5 @@
 angular.module('hh.controller.MainController', ['hh.controller.HeaderController'])
-    .controller('MainController', [, function () {
+    .controller('MainController', [function () {
         "use strict";
 
     }]);

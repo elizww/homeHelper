@@ -1,0 +1,30 @@
+<div>
+    <div class="modal-header">
+        <span class="closeModal" ng-click="close()">
+            <i class="fa fa-times"></i>
+        </span>
+        <p class="modal-title" translate>{{ action }} Category<p>
+    </div>
+    <div class="modal-body">
+        <form name="form">
+            <legend>Edit form</legend>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" ng-model="category.name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" ng-model="category.amount" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Payment</label>
+                <input type="text" ng-model="category.payment" class="form-control">
+            </div>
+        </form>
+        <div class="action-buttons">
+            <a class="btn btn-link" ng-click="close()">Cancel</a>
+            <a class="btn btn-primary" ng-click="ok()" ng-disabled="!hasChanges()||form.$invalid">Save</a>
+        </div>
+    </div>
+</div>
+

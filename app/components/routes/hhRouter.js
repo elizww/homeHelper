@@ -1,6 +1,6 @@
 angular.module('hh-router', [
     'ui.router'
-]).config(function($stateProvider, $urlRouterProvider) {
+]).config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     'use strict';
     $stateProvider.state('hh', {
         url: '/hh',
@@ -27,6 +27,11 @@ angular.module('hh-router', [
         }
     });
 
+    $stateProvider.state('hh.categories', {
+        url: '/categories',
+        templateUrl: 'categories/categories.html',
+        controller: 'CategoriesController as categoriesCtrl'
+    });
 
     // full state example
 /*    $stateProvider.state('aff.create-change-request', {
@@ -50,7 +55,7 @@ angular.module('hh-router', [
     /* Add New States Above */
     $urlRouterProvider.otherwise('/hh');
 
-});
+}]);
 
 angular.module('hh-router').run(function($rootScope, $log) {
     'use strict';

@@ -2,41 +2,79 @@ angular.module('hh-categories.controller.CategoriesController', ['hh-categories.
     .controller('CategoriesController', [ '$scope',
         'Category',
         '$log',
+        '$modal',
         function($scope,
                  Category,
-                 $log) {
+                 $log,
+                 $modal) {
             "use strict";
 
-            $scope.category = new Category();
+            var self = this;
 
-            function refreshList() {
+            $scope.category = new Category();
+            self.categoryId = 0;
+
+            self.refreshList = function() {
                 Category.all().then(function(categories){
                     $scope.categories = categories;
                 });
-            }
+            };
 
-            function handleError() {
-                console.log("failed to save");
-            }
 
-            function handleSuccess() {
-                refreshList();
-            }
 
-            $scope.save = function(){
+            self.modalSuccess = function(category){
                 $log.info("save called");
-                $log.info($scope.category);
+                $log.info(category);
 
-                $scope.category.$saveOrUpdate(handleSuccess, handleSuccess, handleError, handleError);
+                self.refreshList();
             };
 
-            $scope.hasChanges = function(){
-                //return !angular.equals($scope.project, projectCopy);
-                return true;
-            };
 
-            refreshList();
-            //$scope.categories = ['category 1', 'category 2', 'category 3'];
+
+            self.refreshList();
+
+            self.openCategoryModal = function (category) {
+                var modalInstance = $modal.open({
+                    templateUrl: 'categories/categoryModal.html',
+                    windowClass: 'category-modal',
+                    resolve: {
+                        category: function () {
+                            return category;
+                        }
+                    },
+                    controller: function ($scope, $modalInstance, category, Category) {
+                        $scope.action = "Edit";
+                        if (!angular.isDefined(category)){
+                            $scope.category = new Category();
+                            $scope.action = "Create";
+                        }
+
+                        function handleError() {
+                            console.log("failed to save");
+                        }
+
+                        function handleSuccess() {
+                            $modalInstance.close($scope.category);
+                        }
+
+                        $scope.ok = function () {
+                            $scope.category.$saveOrUpdate(handleSuccess, handleSuccess, handleError, handleError);
+                            $modalInstance.close($scope.category);
+                        };
+
+                        $scope.close = function () {
+                            $modalInstance.dismiss('cancel');
+                        };
+
+                        $scope.hasChanges = function(){
+                            //return !angular.equals($scope.project, projectCopy);
+                            return true;
+                        };
+                    }
+                });
+
+                modalInstance.result.then(self.modalSuccess);
+            };
         }]);
 
 
